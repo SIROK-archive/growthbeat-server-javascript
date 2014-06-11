@@ -6,6 +6,19 @@ module.exports = function (grunt) {
     });
 
     grunt.initConfig({
+        handlebars: {
+            main: {
+                options: {
+                    namespace: "Hub.templates",
+                    processName: function (filename) {
+                        return (/\/([a-zA-Z1-9-]+)\.html$/.exec(filename))[1];
+                    }
+                },
+                files: {
+                    "target/templates.js": ["templates/*.html"]
+                }
+            }
+        },
         typescript: {
             main: {
                 src: ['src/main.ts'],
@@ -19,11 +32,15 @@ module.exports = function (grunt) {
         uglify: {
             main: {
                 files: {
-                    'hub-server.min.js': ['target/main.js']
+                    'hub-server.min.js': ['target/templates.js', 'target/main.js']
                 }
             }
         },
         watch: {
+            handlebars: {
+                files: ['templates/*.html'],
+                tasks: ['handlebars', 'uglify']
+            },
             typescript: {
                 files: ['src/*.ts'],
                 tasks: ['typescript', 'uglify']
@@ -31,7 +48,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['typescript', 'uglify']);
+    grunt.registerTask('default', ['handlebars', 'typescript', 'uglify']);
     grunt.registerTask('watchr',['watch']);
 
 };
