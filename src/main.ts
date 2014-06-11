@@ -22,6 +22,10 @@
         open();
     }, false);
 
+    xdm('http://localhost:8085/xdm/service_authorizations?connectionId=1&applicationId=3&callback=callback_xxx', (body:any)=> {
+        console.log(body);
+    });
+
     function open() {
         var iframeElement:HTMLIFrameElement = hubElement.getElementsByTagName('iframe')[0];
         iframeElement.style.height = window.innerHeight + 'px';
@@ -46,6 +50,18 @@
         }
 
         return null;
+
+    }
+
+    function xdm(url:string, callback:(body:any)=>void) {
+
+        var hubElement:HTMLElement = document.createElement('div');
+        hubElement.id = 'hub';
+        hubElement.innerHTML = Hub.templates['XdmView']({
+            url: url
+        });
+
+        bodyElement.insertBefore(hubElement, bodyElement.childNodes[0]);
 
     }
 
