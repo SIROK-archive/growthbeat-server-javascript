@@ -8,8 +8,8 @@ module.exports = function (grunt) {
     grunt.initConfig({
         typescript: {
             main: {
-                src: ['hub-server.ts'],
-                dest: 'hub-server.js',
+                src: ['src/main.ts'],
+                dest: 'target/main.js',
                 options: {
                     module: 'amd',
                     comments: true
@@ -19,13 +19,13 @@ module.exports = function (grunt) {
         uglify: {
             main: {
                 files: {
-                    'hub-server.min.js': ['hub-server.js']
+                    'hub-server.min.js': ['target/main.js']
                 }
             }
         },
         watch: {
             typescript: {
-                files: ['*.ts'],
+                files: ['src/*.ts'],
                 tasks: ['typescript', 'uglify']
             }
         }
