@@ -19,6 +19,7 @@
         if (event.origin !== "http://localhost:8085")
             return;
         console.log('Receive message: ' + event.data);
+        open();
     }, false);
 
     function open() {
