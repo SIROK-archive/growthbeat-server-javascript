@@ -5,17 +5,30 @@
     console.log('Load hub server library');
 
     var bodyElement:HTMLElement = document.body;
+    var headerHeight:number = 60;
 
     var hubElement:HTMLElement = document.createElement('div');
     hubElement.id = 'hub';
-    hubElement.innerHTML = Hub.templates['HeaderView']({});
+    hubElement.innerHTML = Hub.templates['HeaderView']({
+        height: headerHeight
+    });
 
     bodyElement.insertBefore(hubElement, bodyElement.childNodes[0]);
 
-    window.addEventListener('message', function (event:MessageEvent) {
+    window.addEventListener('message', (event:MessageEvent)=> {
         if (event.origin !== "http://localhost:8085")
             return;
-        console.log('Receive message: ' + event.data)
+        console.log('Receive message: ' + event.data);
     }, false);
+
+    function open() {
+        var iframeElement:HTMLIFrameElement = hubElement.getElementsByTagName('iframe')[0];
+        iframeElement.style.height = window.innerHeight + 'px';
+    }
+
+    function close() {
+        var iframeElement:HTMLIFrameElement = hubElement.getElementsByTagName('iframe')[0];
+        iframeElement.style.height = headerHeight + 'px';
+    }
 
 }());
