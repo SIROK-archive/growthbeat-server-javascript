@@ -12,4 +12,10 @@
 
     bodyElement.insertBefore(hubElement, bodyElement.childNodes[0]);
 
+    window.addEventListener('message', function (event:MessageEvent) {
+        if (event.origin !== "http://localhost:8085")
+            return;
+        console.log('Receive message: ' + event.data)
+    }, false);
+
 }());
