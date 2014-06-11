@@ -1,11 +1,15 @@
+/// <reference path="./hub.d.ts"/>
+
 (function () {
 
     console.log('Load hub server library');
 
     var bodyElement:HTMLElement = document.body;
 
-    var headerElement:HTMLElement = document.createElement('div')
-    headerElement.id = 'hubCommonHeader'
-    bodyElement.insertBefore(headerElement, bodyElement.childNodes[0]);
+    var hubElement:HTMLElement = document.createElement('div');
+    hubElement.id = 'hub';
+    hubElement.innerHTML = Hub.templates['HeaderView']({});
+
+    bodyElement.insertBefore(hubElement, bodyElement.childNodes[0]);
 
 }());
