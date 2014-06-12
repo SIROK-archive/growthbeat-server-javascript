@@ -1,3 +1,5 @@
+/// <reference path="./hub.d.ts"/>
+
 module Hub {
 
     export class CookieUtils {

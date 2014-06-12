@@ -1,5 +1,6 @@
 /// <reference path="./hub.d.ts"/>
 /// <reference path="./CookieUtils.ts"/>
+/// <reference path="./Xdm.ts"/>
 
 (function () {
 
@@ -17,10 +18,10 @@
     if (serviceAuthorization) {
         showHeaderView();
     } else {
-        xdm('http://localhost:8085/xdm/service_authorizations?connectionId=1&applicationId=3', (body:string)=> {
+        Hub.Xdm.get('http://localhost:8085/xdm/service_authorizations?connectionId=1&applicationId=3', (body:string)=> {
             Hub.CookieUtils.set('hubServiceAuthorization', body, 14 * 24 * 60 * 60 * 1000);
             location.reload();
-        });
+        }, hubElement);
     }
 
     function open():void {
@@ -31,54 +32,6 @@
     function close():void {
         var iframeElement:HTMLIFrameElement = hubElement.getElementsByTagName('iframe')[0];
         iframeElement.style.height = Hub.headerHeight + 'px';
-    }
-
-    function getCookie(name:string):string {
-
-        if (!document.cookie)
-            return null;
-
-        var cookies:Array<string> = document.cookie.split("; ");
-        for (var i in cookies) {
-            var nameValuePair:Array<string> = cookies[i].split("=");
-            if (nameValuePair[0] != name)
-                continue;
-            return decodeURIComponent(nameValuePair[1]);
-        }
-
-        return null;
-
-    }
-
-    function setCookie(name:string, value:string, expiry:number):void {
-
-        var cookie:string = name + '=' + encodeURIComponent(value);
-        cookie += '; expires=' + new Date(new Date().getTime() + expiry).toUTCString();
-
-        document.cookie = cookie;
-
-    }
-
-    function xdm(url:string, callback:(body:string)=>void):void {
-
-        var element:HTMLElement = document.createElement('div');
-        element.innerHTML = Hub.templates['XdmView']({
-            url: url
-        });
-
-        var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
-
-        window.addEventListener('message', (event:MessageEvent)=> {
-            if (event.origin !== "http://localhost:8085")
-                return;
-            if (event.source != iframeElement.contentWindow)
-                return;
-            callback(event.data);
-            element.parentNode.removeChild(element);
-        }, false);
-
-        document.getElementById('hub').appendChild(element);
-
     }
 
     function showHeaderView():void {
