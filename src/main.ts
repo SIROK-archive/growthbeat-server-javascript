@@ -1,4 +1,5 @@
 /// <reference path="./hub.d.ts"/>
+/// <reference path="./CookieUtils.ts"/>
 
 (function () {
 
@@ -12,12 +13,12 @@
     hubElement.id = 'hub';
     bodyElement.insertBefore(hubElement, bodyElement.childNodes[0]);
 
-    var serviceAuthorization:string = getCookie('hubServiceAuthorization');
+    var serviceAuthorization:string = Hub.CookieUtils.get('hubServiceAuthorization');
     if (serviceAuthorization) {
         showHeaderView();
     } else {
         xdm('http://localhost:8085/xdm/service_authorizations?connectionId=1&applicationId=3', (body:string)=> {
-            setCookie('hubServiceAuthorization', body, 14 * 24 * 60 * 60 * 1000);
+            Hub.CookieUtils.set('hubServiceAuthorization', body, 14 * 24 * 60 * 60 * 1000);
             location.reload();
         });
     }
