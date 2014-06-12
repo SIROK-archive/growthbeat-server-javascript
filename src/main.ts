@@ -12,11 +12,15 @@
     hubElement.id = 'hub';
     bodyElement.insertBefore(hubElement, bodyElement.childNodes[0]);
 
-    showHeaderView();
-
-    xdm('http://localhost:8085/xdm/service_authorizations?connectionId=1&applicationId=3', (body:string)=> {
-        console.log(body);
-    });
+    var serviceAuthorization:string = getCookie('hubServiceAuthorization');
+    if (serviceAuthorization) {
+        showHeaderView();
+    } else {
+        xdm('http://localhost:8085/xdm/service_authorizations?connectionId=1&applicationId=3', (body:string)=> {
+            setCookie('hubServiceAuthorization', body, 14 * 24 * 60 * 60 * 1000);
+            location.reload();
+        });
+    }
 
     function open():void {
         var iframeElement:HTMLIFrameElement = hubElement.getElementsByTagName('iframe')[0];
@@ -45,6 +49,15 @@
 
     }
 
+    function setCookie(name:string, value:string, expiry:number):void {
+
+        var cookie:string = name + '=' + encodeURIComponent(value);
+        cookie += '; expires=' + new Date(new Date().getTime() + expiry).toUTCString();
+
+        document.cookie = cookie;
+
+    }
+
     function xdm(url:string, callback:(body:string)=>void):void {
 
         var element:HTMLElement = document.createElement('div');
@@ -59,8 +72,7 @@
                 return;
             if (event.source != iframeElement.contentWindow)
                 return;
-            console.log('xdm response');
-            console.log(event.data);
+            callback(event.data);
             element.parentNode.removeChild(element);
         }, false);
 
