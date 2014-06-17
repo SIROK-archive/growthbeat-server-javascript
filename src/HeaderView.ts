@@ -1,6 +1,6 @@
-/// <reference path="./hub.d.ts"/>
+/// <reference path="./growthbeat.d.ts"/>
 
-module Hub {
+module Growthbeat {
 
     export class HeaderView {
 
@@ -12,8 +12,8 @@ module Hub {
         public show(rootElement:HTMLElement):void {
 
             this.element = document.createElement('div');
-            this.element.innerHTML = Hub.templates['HeaderView']({
-                height: Hub.headerHeight
+            this.element.innerHTML = Growthbeat.templates['HeaderView']({
+                height: Growthbeat.headerHeight
             });
 
             var iframeElement:HTMLIFrameElement = this.element.getElementsByTagName('iframe')[0];
@@ -39,7 +39,7 @@ module Hub {
 
         private close():void {
             var iframeElement:HTMLIFrameElement = this.element.getElementsByTagName('iframe')[0];
-            iframeElement.style.height = Hub.headerHeight + 'px';
+            iframeElement.style.height = Growthbeat.headerHeight + 'px';
         }
 
     }

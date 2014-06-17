@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         handlebars: {
             main: {
                 options: {
-                    namespace: "Hub.templates",
+                    namespace: "Growthbeat.templates",
                     processName: function (filename) {
                         return (/\/([a-zA-Z1-9-]+)\.html$/.exec(filename))[1];
                     }
@@ -32,7 +32,7 @@ module.exports = function (grunt) {
         uglify: {
             main: {
                 files: {
-                    'hub-server.min.js': ['target/templates.js', 'target/main.js']
+                    'growthbeat.min.js': ['target/templates.js', 'target/main.js']
                 }
             }
         },

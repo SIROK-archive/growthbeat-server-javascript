@@ -1,6 +1,6 @@
-/// <reference path="./hub.d.ts"/>
+/// <reference path="./growthbeat.d.ts"/>
 
-module Hub {
+module Growthbeat {
 
     export class CookieUtils {
 

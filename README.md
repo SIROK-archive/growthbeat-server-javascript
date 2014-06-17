@@ -1,4 +1,4 @@
-hub-server-javascript
+growthbeat-javascript
 =====================
 
-Hub server side library for JavaScript
+Growthbeat library for JavaScript

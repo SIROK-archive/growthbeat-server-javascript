@@ -1,13 +1,13 @@
-/// <reference path="./hub.d.ts"/>
+/// <reference path="./growthbeat.d.ts"/>
 
-module Hub {
+module Growthbeat {
 
     export class Xdm {
 
         public static get(url:string, callback:(body:string)=>void, workingElement:HTMLElement):void {
 
             var element:HTMLElement = document.createElement('div');
-            element.innerHTML = Hub.templates['XdmView']({
+            element.innerHTML = Growthbeat.templates['XdmView']({
                 url: url
             });
 
