@@ -25,8 +25,7 @@ module Growthbeat {
             if (Growthbeat.CookieUtils.get(Growthbeat.authorizationCookieName)) {
                 new Growthbeat.HeaderView().show(growthbeatElement);
             } else {
-                // TODO Get connection ID and application ID
-                Growthbeat.Xdm.get('http://localhost:8085/xdm/service_authorizations?connectionId=1&applicationId=3', (body:string)=> {
+                Growthbeat.Xdm.get('http://localhost:8085/xdm/connections?applicationId=' + Growthbeat.applicationId + '&serviceId=' + Growthbeat.serviceId, (body:string)=> {
                     Growthbeat.CookieUtils.set(Growthbeat.authorizationCookieName, body, Growthbeat.authorizationCookieExpiry);
                     location.reload();
                 }, growthbeatElement);
