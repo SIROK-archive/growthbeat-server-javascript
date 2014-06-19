@@ -7,6 +7,10 @@ declare module Growthbeat {
     var cookieName:string;
     var cookieDuration:number;
 
+    export class Account {
+        id:string;
+    }
+
     export class Connection {
         id:string;
     }

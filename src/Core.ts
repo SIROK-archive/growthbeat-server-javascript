@@ -24,13 +24,26 @@ module Growthbeat {
 
             if (Growthbeat.CookieUtils.get(Growthbeat.cookieName)) {
                 new Growthbeat.HeaderView().show(growthbeatElement);
-            } else {
+                return;
+            }
+
+            Growthbeat.Xdm.get('http://localhost:8085/xdm/accounts', (body:string)=> {
+
+                var account:Growthbeat.Account = JSON.parse(body);
+                if (!account || !account.id) {
+                    location.href = 'http://localhost:8085/login?seviceId=' + Growthbeat.serviceId;
+                    return;
+                }
+
                 Growthbeat.Xdm.get('http://localhost:8085/xdm/connections?serviceId=' + Growthbeat.serviceId, (body:string)=> {
                     var connection:Growthbeat.Connection = JSON.parse(body);
-                    Growthbeat.CookieUtils.set(Growthbeat.cookieName, connection.id, Growthbeat.cookieDuration);
-                    location.reload();
+                    if (connection.id) {
+                        Growthbeat.CookieUtils.set(Growthbeat.cookieName, connection.id, Growthbeat.cookieDuration);
+                        location.reload();
+                    }
                 }, growthbeatElement);
-            }
+
+            }, growthbeatElement);
 
         }
 
