@@ -12,8 +12,8 @@ module Growthbeat {
         constructor() {
             Growthbeat.headerHeight = 60;
             Growthbeat.rootElementId = 'growthbeat';
-            Growthbeat.authorizationCookieName = 'growthbeatServiceAuthorization';
-            Growthbeat.authorizationCookieExpiry = 14 * 24 * 60 * 60 * 1000;
+            Growthbeat.cookieName = 'growthbeatConnectionId';
+            Growthbeat.cookieDuration = 14 * 24 * 60 * 60 * 1000;
         }
 
         public start():void {
@@ -22,11 +22,12 @@ module Growthbeat {
             growthbeatElement.id = Growthbeat.rootElementId;
             document.body.insertBefore(growthbeatElement, document.body.childNodes[0]);
 
-            if (Growthbeat.CookieUtils.get(Growthbeat.authorizationCookieName)) {
+            if (Growthbeat.CookieUtils.get(Growthbeat.cookieName)) {
                 new Growthbeat.HeaderView().show(growthbeatElement);
             } else {
-                Growthbeat.Xdm.get('http://localhost:8085/xdm/connections?applicationId=' + Growthbeat.applicationId + '&serviceId=' + Growthbeat.serviceId, (body:string)=> {
-                    Growthbeat.CookieUtils.set(Growthbeat.authorizationCookieName, body, Growthbeat.authorizationCookieExpiry);
+                Growthbeat.Xdm.get('http://localhost:8085/xdm/connections?serviceId=' + Growthbeat.serviceId, (body:string)=> {
+                    var connection:Growthbeat.Connection = JSON.parse(body);
+                    Growthbeat.CookieUtils.set(Growthbeat.cookieName, connection.id, Growthbeat.cookieDuration);
                     location.reload();
                 }, growthbeatElement);
             }
