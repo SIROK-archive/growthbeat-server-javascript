@@ -32,7 +32,7 @@ module.exports = function (grunt) {
         uglify: {
             main: {
                 files: {
-                    'growthbeat.min.js': ['target/templates.js', 'target/main.js']
+                    'growthbeat.min.js': ['target/main.js']
                 }
             }
         },
@@ -48,7 +48,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['handlebars', 'typescript', 'uglify']);
+    grunt.registerTask('default', ['typescript', 'uglify']);
     grunt.registerTask('watchr',['watch']);
 
 };

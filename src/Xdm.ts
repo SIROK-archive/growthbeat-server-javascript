@@ -7,9 +7,8 @@ module Growthbeat {
         public static get(url:string, callback:(body:string)=>void, workingElement:HTMLElement):void {
 
             var element:HTMLElement = document.createElement('div');
-            element.innerHTML = Growthbeat.templates['XdmView']({
-                url: url
-            });
+            var html:string = '<iframe id="growthbeatXdmView" src="{{url}}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>';
+            element.innerHTML = html.replace('{{url}}', url);
 
             var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
 
