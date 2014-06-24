@@ -27,7 +27,9 @@ module Growthbeat {
                 return;
             }
 
-            Growthbeat.Xdm.get('http://localhost:8085/xdm/accounts', (body:string)=> {
+            var hostName:string = window.location.hostname;
+
+            Growthbeat.Xdm.get('http://localhost:8085/xdm/accounts?domain=' + hostName, (body:string)=> {
 
                 var account:Growthbeat.Account = JSON.parse(body);
                 if (!account || !account.id) {
@@ -35,7 +37,7 @@ module Growthbeat {
                     return;
                 }
 
-                Growthbeat.Xdm.get('http://localhost:8085/xdm/connections?serviceId=' + Growthbeat.serviceId, (body:string)=> {
+                Growthbeat.Xdm.get('http://localhost:8085/xdm/connections?serviceId=' + Growthbeat.serviceId + '&domain=' + hostName, (body:string)=> {
                     var connection:Growthbeat.Connection = JSON.parse(body);
                     if (connection.id) {
                         Growthbeat.CookieUtils.set(Growthbeat.cookieName, connection.id, Growthbeat.cookieDuration);
