@@ -6,6 +6,9 @@ module Growthbeat {
     export class HeaderView {
 
         private element:HTMLElement;
+        private iframeElement:HTMLIFrameElement;
+        private opened:boolean = false;
+
         private template = Growthbeat.Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
 
         constructor() {
@@ -19,30 +22,31 @@ module Growthbeat {
                 height: Growthbeat.headerHeight
             });
 
-            var iframeElement:HTMLIFrameElement = this.element.getElementsByTagName('iframe')[0];
+            this.iframeElement = this.element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
-                if (event.origin !== "http://localhost:8085")
+                var originDomain = Growthbeat.HttpUtils.parseUrl(event.origin).domain;
+                var baseDomain = Growthbeat.HttpUtils.parseUrl(Growthbeat.baseUrl).domain;
+                if (originDomain != baseDomain)
                     return;
-                if (event.source != iframeElement.contentWindow)
+                if (event.source != this.iframeElement.contentWindow)
                     return;
                 // TODO Controll open/close
                 console.log('Receive message: ' + event.data);
-                open();
+                this.opened = true;
+                this.rerender();
+            }, false);
+
+            window.addEventListener('resize', (event:Event)=> {
+                this.rerender();
             }, false);
 
             rootElement.appendChild(this.element);
 
         }
 
-        private open():void {
-            var iframeElement:HTMLIFrameElement = this.element.getElementsByTagName('iframe')[0];
-            iframeElement.style.height = window.innerHeight + 'px';
-        }
-
-        private close():void {
-            var iframeElement:HTMLIFrameElement = this.element.getElementsByTagName('iframe')[0];
-            iframeElement.style.height = Growthbeat.headerHeight + 'px';
+        private rerender():void {
+            this.iframeElement.style.height = (this.opened ? window.innerHeight : Growthbeat.headerHeight) + 'px';
         }
 
     }
