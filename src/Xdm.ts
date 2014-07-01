@@ -1,15 +1,19 @@
 /// <reference path="./growthbeat.d.ts"/>
 /// <reference path="./HttpUtils.ts"/>
+/// <reference path="./Template.ts"/>
 
 module Growthbeat {
 
     export class Xdm {
 
+        private static template = Growthbeat.Template.compile('<iframe id="growthbeatXdmView" src="{url}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>');
+
         public static get(url:string, callback:(body:string)=>void, workingElement:HTMLElement):void {
 
             var element:HTMLElement = document.createElement('div');
-            var html:string = '<iframe id="growthbeatXdmView" src="{{url}}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>';
-            element.innerHTML = html.replace('{{url}}', url);
+            element.innerHTML = this.template({
+                url: url
+            });
 
             var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
 
