@@ -1,10 +1,12 @@
 /// <reference path="./growthbeat.d.ts"/>
+/// <reference path="./Template.ts"/>
 
 module Growthbeat {
 
     export class HeaderView {
 
         private element:HTMLElement;
+        private template = Growthbeat.Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
 
         constructor() {
         }
@@ -12,9 +14,10 @@ module Growthbeat {
         public show(rootElement:HTMLElement):void {
 
             this.element = document.createElement('div');
-            var html:string = '<iframe id="growthbeatHeaderView" src="{{baseUrl}}header" allowtransparency="true" style="width: 100%; height: {{height}}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {{height}}px;"></div>';
-
-            this.element.innerHTML = html.replace('{{baseUrl}}', Growthbeat.baseUrl).replace('{{height}}', Growthbeat.headerHeight.toString());
+            this.element.innerHTML = this.template({
+                baseUrl: Growthbeat.baseUrl,
+                height: Growthbeat.headerHeight
+            });
 
             var iframeElement:HTMLIFrameElement = this.element.getElementsByTagName('iframe')[0];
 
