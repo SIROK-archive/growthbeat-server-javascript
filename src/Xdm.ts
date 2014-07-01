@@ -13,7 +13,7 @@ module Growthbeat {
             var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
-                if (event.origin !== "http://localhost:8085")
+                if (event.origin != Growthbeat.baseUrl)
                     return;
                 if (event.source != iframeElement.contentWindow)
                     return;

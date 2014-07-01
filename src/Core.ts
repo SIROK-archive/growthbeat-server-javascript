@@ -10,10 +10,11 @@ module Growthbeat {
         private element:HTMLElement;
 
         constructor() {
-            Growthbeat.headerHeight = 60;
-            Growthbeat.rootElementId = 'growthbeat';
-            Growthbeat.cookieName = 'growthbeatConnectionId';
-            Growthbeat.cookieDuration = 14 * 24 * 60 * 60 * 1000;
+            Growthbeat.baseUrl = (Growthbeat.baseUrl || 'https://growthbeat.com/');
+            Growthbeat.headerHeight = (Growthbeat.headerHeight || 60);
+            Growthbeat.rootElementId = (Growthbeat.rootElementId || 'growthbeat');
+            Growthbeat.cookieName = (Growthbeat.cookieName || 'growthbeatConnectionId');
+            Growthbeat.cookieDuration = (Growthbeat.cookieDuration || 14 * 24 * 60 * 60 * 1000);
         }
 
         public start():void {
@@ -29,15 +30,15 @@ module Growthbeat {
 
             var hostName:string = window.location.hostname;
 
-            Growthbeat.Xdm.get('http://localhost:8085/xdm/accounts?domain=' + hostName, (body:string)=> {
+            Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/accounts?domain=' + hostName, (body:string)=> {
 
                 var account:Growthbeat.Account = JSON.parse(body);
                 if (!account || !account.id) {
-                    location.href = 'http://localhost:8085/login?seviceId=' + Growthbeat.serviceId;
+                    location.href = Growthbeat.baseUrl + 'login?seviceId=' + Growthbeat.serviceId;
                     return;
                 }
 
-                Growthbeat.Xdm.get('http://localhost:8085/xdm/connections?serviceId=' + Growthbeat.serviceId + '&domain=' + hostName, (body:string)=> {
+                Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/connections?serviceId=' + Growthbeat.serviceId + '&domain=' + hostName, (body:string)=> {
                     var connection:Growthbeat.Connection = JSON.parse(body);
                     if (connection.id) {
                         Growthbeat.CookieUtils.set(Growthbeat.cookieName, connection.id, Growthbeat.cookieDuration);
