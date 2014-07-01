@@ -28,9 +28,7 @@ module Growthbeat {
                 return;
             }
 
-            var hostName:string = window.location.hostname;
-
-            Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/accounts?serviceId=' + serviceId + '&domain=' + hostName, (body:string)=> {
+            Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/accounts?serviceId=' + Growthbeat.serviceId + '&url=' + location.href, (body:string)=> {
 
                 var account:Growthbeat.Account = JSON.parse(body);
                 if (!account || !account.id) {
@@ -38,7 +36,7 @@ module Growthbeat {
                     return;
                 }
 
-                Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/connections?serviceId=' + Growthbeat.serviceId + '&domain=' + hostName, (body:string)=> {
+                Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/connections?serviceId=' + Growthbeat.serviceId + '&url=' + location.href, (body:string)=> {
                     var connection:Growthbeat.Connection = JSON.parse(body);
                     if (connection.id) {
                         Growthbeat.CookieUtils.set(Growthbeat.cookieName, connection.id, Growthbeat.cookieDuration);
