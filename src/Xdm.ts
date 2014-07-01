@@ -1,4 +1,5 @@
 /// <reference path="./growthbeat.d.ts"/>
+/// <reference path="./HttpUtils.ts"/>
 
 module Growthbeat {
 
@@ -13,7 +14,9 @@ module Growthbeat {
             var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
-                if (event.origin != Growthbeat.baseUrl)
+                var originDomain = Growthbeat.HttpUtils.parseUrl(event.origin).domain;
+                var baseDomain = Growthbeat.HttpUtils.parseUrl(Growthbeat.baseUrl).domain;
+                if (originDomain != baseDomain)
                     return;
                 if (event.source != iframeElement.contentWindow)
                     return;
