@@ -30,7 +30,7 @@ module Growthbeat {
 
             var hostName:string = window.location.hostname;
 
-            Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/accounts?domain=' + hostName, (body:string)=> {
+            Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/accounts?serviceId=' + serviceId + '&domain=' + hostName, (body:string)=> {
 
                 var account:Growthbeat.Account = JSON.parse(body);
                 if (!account || !account.id) {
