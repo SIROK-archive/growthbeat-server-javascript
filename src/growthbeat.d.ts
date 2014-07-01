@@ -16,4 +16,8 @@ declare module Growthbeat {
         id:string;
     }
 
+    export class Command {
+        type:string;
+    }
+
 }

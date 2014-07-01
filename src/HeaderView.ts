@@ -25,15 +25,23 @@ module Growthbeat {
             this.iframeElement = this.element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
+                console.log(event);
+
                 var originDomain = Growthbeat.HttpUtils.parseUrl(event.origin).domain;
                 var baseDomain = Growthbeat.HttpUtils.parseUrl(Growthbeat.baseUrl).domain;
                 if (originDomain != baseDomain)
                     return;
                 if (event.source != this.iframeElement.contentWindow)
                     return;
-                // TODO Controll open/close
-                console.log('Receive message: ' + event.data);
-                this.opened = true;
+                var command:Command = JSON.parse(event.data);
+                switch (command.type) {
+                    case 'open':
+                        this.opened = true;
+                        break;
+                    case 'close':
+                        this.opened = false;
+                        break;
+                }
                 this.rerender();
             }, false);
 
