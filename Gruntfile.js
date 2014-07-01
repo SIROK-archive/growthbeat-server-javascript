@@ -6,19 +6,6 @@ module.exports = function (grunt) {
     });
 
     grunt.initConfig({
-        handlebars: {
-            main: {
-                options: {
-                    namespace: "Growthbeat.templates",
-                    processName: function (filename) {
-                        return (/\/([a-zA-Z1-9-]+)\.html$/.exec(filename))[1];
-                    }
-                },
-                files: {
-                    "target/templates.js": ["templates/*.html"]
-                }
-            }
-        },
         typescript: {
             main: {
                 src: ['src/main.ts'],
