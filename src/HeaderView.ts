@@ -9,7 +9,7 @@ module Growthbeat {
         private iframeElement:HTMLIFrameElement;
         private opened:boolean = false;
 
-        private template = Growthbeat.Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
+        private template = Growthbeat.Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header/?serviceId={serviceId}&height={height}" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
 
         constructor() {
         }
@@ -19,6 +19,7 @@ module Growthbeat {
             this.element = document.createElement('div');
             this.element.innerHTML = this.template({
                 baseUrl: Growthbeat.baseUrl,
+                serviceId: Growthbeat.serviceId,
                 height: Growthbeat.headerHeight
             });
 
