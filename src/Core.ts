@@ -13,7 +13,7 @@ module Growthbeat {
             Growthbeat.baseUrl = (Growthbeat.baseUrl || 'https://growthbeat.com/');
             Growthbeat.headerHeight = (Growthbeat.headerHeight || 60);
             Growthbeat.rootElementId = (Growthbeat.rootElementId || 'growthbeat');
-            Growthbeat.cookieName = (Growthbeat.cookieName || 'growthbeatConnectionId');
+            Growthbeat.cookieName = (Growthbeat.cookieName || 'growthbeat[sessionId]');
             Growthbeat.cookieDuration = (Growthbeat.cookieDuration || 14 * 24 * 60 * 60 * 1000);
         }
 
@@ -36,10 +36,10 @@ module Growthbeat {
                     return;
                 }
 
-                Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/connections?serviceId=' + Growthbeat.serviceId + '&url=' + location.href, (body:string)=> {
-                    var connection:Growthbeat.Connection = JSON.parse(body);
-                    if (connection.id) {
-                        Growthbeat.CookieUtils.set(Growthbeat.cookieName, connection.id, Growthbeat.cookieDuration);
+                Growthbeat.Xdm.get(Growthbeat.baseUrl + 'xdm/sessions?serviceId=' + Growthbeat.serviceId + '&url=' + location.href, (body:string)=> {
+                    var session:Growthbeat.Session = JSON.parse(body);
+                    if (session.id) {
+                        Growthbeat.CookieUtils.set(Growthbeat.cookieName, session.id, Growthbeat.cookieDuration);
                         location.reload();
                     }
                 }, growthbeatElement);

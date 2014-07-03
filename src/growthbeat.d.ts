@@ -12,7 +12,7 @@ declare module Growthbeat {
         id:string;
     }
 
-    export class Connection {
+    export class Session {
         id:string;
     }
 
