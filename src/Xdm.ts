@@ -8,7 +8,7 @@ module Growthbeat {
 
         private static template = Growthbeat.Template.compile('<form method="{method}" action="{url}" target="{target}"></form><iframe id="growthbeatXdmView" name="{target}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>');
 
-        public static request(method:string, url:string, callback:(body:string)=>void, workingElement:HTMLElement):void {
+        public static request(method:string, url:string, params:any, callback:(body:string)=>void, workingElement:HTMLElement):void {
 
             var element:HTMLElement = document.createElement('div');
             element.innerHTML = this.template({
@@ -18,6 +18,14 @@ module Growthbeat {
             });
 
             var formElement:HTMLFormElement = element.getElementsByTagName('form')[0];
+            for (var name in params) {
+                var inputElement:HTMLInputElement = document.createElement('input');
+                inputElement.type = 'hidden';
+                inputElement.name = name;
+                inputElement.value = params[name];
+                formElement.appendChild(inputElement);
+            }
+
             var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
