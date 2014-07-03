@@ -6,15 +6,18 @@ module Growthbeat {
 
     export class Xdm {
 
-        private static template = Growthbeat.Template.compile('<iframe id="growthbeatXdmView" src="{url}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>');
+        private static template = Growthbeat.Template.compile('<form method="{method}" action="{url}" target="{target}"></form><iframe id="growthbeatXdmView" name="{target}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>');
 
-        public static get(url:string, callback:(body:string)=>void, workingElement:HTMLElement):void {
+        public static request(method:string, url:string, callback:(body:string)=>void, workingElement:HTMLElement):void {
 
             var element:HTMLElement = document.createElement('div');
             element.innerHTML = this.template({
-                url: url
+                method: method,
+                url: url,
+                target: 'growthbeatXdmView' + Math.round(Math.random() * 1e8)
             });
 
+            var formElement:HTMLFormElement = element.getElementsByTagName('form')[0];
             var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
@@ -29,6 +32,7 @@ module Growthbeat {
             }, false);
 
             workingElement.appendChild(element);
+            formElement.submit();
 
         }
 
