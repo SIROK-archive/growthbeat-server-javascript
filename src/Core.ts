@@ -11,7 +11,7 @@ module Growthbeat {
 
         constructor() {
             Growthbeat.baseUrl = (Growthbeat.baseUrl || 'https://growthbeat.com/');
-            Growthbeat.headerHeight = (Growthbeat.headerHeight || 60);
+            Growthbeat.headerHeight = (Growthbeat.headerHeight || 68);
             Growthbeat.rootElementId = (Growthbeat.rootElementId || 'growthbeat');
             Growthbeat.cookieName = (Growthbeat.cookieName || 'growthbeat.sessionId');
             Growthbeat.cookieDuration = (Growthbeat.cookieDuration || 7 * 24 * 60 * 60 * 1000);
