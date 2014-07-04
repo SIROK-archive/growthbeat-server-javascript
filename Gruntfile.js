@@ -19,7 +19,7 @@ module.exports = function (grunt) {
         uglify: {
             main: {
                 files: {
-                    'growthbeat.min.js': ['target/main.js']
+                    'growthbeat.js': ['target/main.js']
                 }
             }
         },
