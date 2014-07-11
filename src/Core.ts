@@ -44,10 +44,12 @@ module Growthbeat {
                     url: location.href
                 }, (body:string)=> {
                     var session:Growthbeat.Session = JSON.parse(body);
-                    if (session.id) {
-                        Growthbeat.CookieUtils.set(Growthbeat.cookieName, session.id, Growthbeat.cookieDuration);
-                        location.reload();
+                    if (!session || !session.id) {
+                        location.href = Growthbeat.baseUrl + 'services/' + Growthbeat.serviceId;
+                        return;
                     }
+                    Growthbeat.CookieUtils.set(Growthbeat.cookieName, session.id, Growthbeat.cookieDuration);
+                    location.reload();
                 }, growthbeatElement);
 
             }, growthbeatElement);
