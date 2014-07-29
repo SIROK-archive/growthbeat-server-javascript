@@ -28,13 +28,17 @@ class Growthbeat {
         this.growthbeatElement.id = options.rootElementId;
         document.body.insertBefore(this.growthbeatElement, document.body.childNodes[0]);
 
-        if (this.checkLogin()) {
-            new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
+        if (!this.checkLogin()) {
+            this.login();
             return;
         }
 
-        this.login(()=> {
-
+        new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
+        this.getAccount((account:GrowthbeatModule.Account)=> {
+            if (!account || !account.id) {
+                this.logout();
+                location.reload();
+            }
         });
 
     }
@@ -43,7 +47,7 @@ class Growthbeat {
         return GrowthbeatModule.CookieUtils.get(this.options.cookieName);
     }
 
-    public static login(callback:()=>void):void {
+    public static login():void {
 
         console.log('Growthbeat#login');
 
@@ -70,8 +74,12 @@ class Growthbeat {
 
     }
 
-    public static logout(callback:()=>void):void {
+    public static logout():void {
+
         console.log('Growthbeat#logout');
+
+        GrowthbeatModule.CookieUtils.delete(this.options.cookieName);
+
     }
 
 

@@ -30,6 +30,10 @@ module GrowthbeatModule {
 
         }
 
+        public static delete(name:string):void {
+            this.set(name, undefined, 0);
+        }
+
     }
 
 }
