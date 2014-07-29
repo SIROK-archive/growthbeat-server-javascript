@@ -1,6 +1,11 @@
+/// <reference path="./GrowthbeatModule.d.ts"/>
+/// <reference path="./Options.ts"/>
+
 class Growthbeat {
 
-    public static init(options:any):void {
+    private options:GrowthbeatModule.Options;
+
+    public static init(options:GrowthbeatModule.Options):void {
         console.log('Growthbeat#init');
     }
 
