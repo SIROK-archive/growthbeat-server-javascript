@@ -1,4 +1,4 @@
-declare module Growthbeat {
+declare module GrowthbeatModule {
 
     var templates:{[name:string]:(params:any)=>string};
     var serviceId:string;

@@ -1,6 +1,6 @@
-/// <reference path="./growthbeat.d.ts"/>
+/// <reference path="./GrowthbeatModule.d.ts"/>
 
-module Growthbeat {
+module GrowthbeatModule {
 
     export class Template {
 

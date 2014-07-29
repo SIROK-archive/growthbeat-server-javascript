@@ -1,7 +1,7 @@
-/// <reference path="./growthbeat.d.ts"/>
+/// <reference path="./GrowthbeatModule.d.ts"/>
 /// <reference path="./Template.ts"/>
 
-module Growthbeat {
+module GrowthbeatModule {
 
     export class HeaderView {
 

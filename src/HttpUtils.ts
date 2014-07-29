@@ -1,6 +1,6 @@
-/// <reference path="./growthbeat.d.ts"/>
+/// <reference path="./GrowthbeatModule.d.ts"/>
 
-module Growthbeat {
+module GrowthbeatModule {
 
     export class Url {
         scheme:string;
@@ -10,7 +10,7 @@ module Growthbeat {
 
     export class HttpUtils {
 
-        public static parseUrl(url:string):Growthbeat.Url {
+        public static parseUrl(url:string):GrowthbeatModule.Url {
 
             var matches = url.match(/^(([^:\/?#]+):\/\/)?([^:\/?#]+)(:([0-9]+))?\/?/);
 

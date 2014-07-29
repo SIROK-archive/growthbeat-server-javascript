@@ -1,54 +1,54 @@
-/// <reference path="./growthbeat.d.ts"/>
+/// <reference path="./GrowthbeatModule.d.ts"/>
 /// <reference path="./CookieUtils.ts"/>
 /// <reference path="./Xdm.ts"/>
 /// <reference path="./HeaderView.ts"/>
 
-module Growthbeat {
+module GrowthbeatModule {
 
     export class Core {
 
         private element:HTMLElement;
 
         constructor() {
-            Growthbeat.baseUrl = (Growthbeat.baseUrl || 'https://growthbeat.com/');
-            Growthbeat.headerHeight = (Growthbeat.headerHeight || 68);
-            Growthbeat.rootElementId = (Growthbeat.rootElementId || 'growthbeat');
-            Growthbeat.cookieName = (Growthbeat.cookieName || 'growthbeat.sessionId');
-            Growthbeat.cookieDuration = (Growthbeat.cookieDuration || 7 * 24 * 60 * 60 * 1000);
+            GrowthbeatModule.baseUrl = (GrowthbeatModule.baseUrl || 'https://growthbeat.com/');
+            GrowthbeatModule.headerHeight = (GrowthbeatModule.headerHeight || 68);
+            GrowthbeatModule.rootElementId = (GrowthbeatModule.rootElementId || 'growthbeat');
+            GrowthbeatModule.cookieName = (GrowthbeatModule.cookieName || 'growthbeat.sessionId');
+            GrowthbeatModule.cookieDuration = (GrowthbeatModule.cookieDuration || 7 * 24 * 60 * 60 * 1000);
         }
 
         public start():void {
 
             var growthbeatElement:HTMLElement = document.createElement('div');
-            growthbeatElement.id = Growthbeat.rootElementId;
+            growthbeatElement.id = GrowthbeatModule.rootElementId;
             document.body.insertBefore(growthbeatElement, document.body.childNodes[0]);
 
-            if (Growthbeat.CookieUtils.get(Growthbeat.cookieName)) {
-                new Growthbeat.HeaderView().show(growthbeatElement);
+            if (GrowthbeatModule.CookieUtils.get(GrowthbeatModule.cookieName)) {
+                new GrowthbeatModule.HeaderView().show(growthbeatElement);
                 return;
             }
 
-            Growthbeat.Xdm.request('GET', Growthbeat.baseUrl + 'xdm/accounts', {
-                serviceId: Growthbeat.serviceId,
+            GrowthbeatModule.Xdm.request('GET', GrowthbeatModule.baseUrl + 'xdm/accounts', {
+                serviceId: GrowthbeatModule.serviceId,
                 url: location.href
             }, (body:string)=> {
 
-                var account:Growthbeat.Account = JSON.parse(body);
+                var account:GrowthbeatModule.Account = JSON.parse(body);
                 if (!account || !account.id) {
-                    location.href = Growthbeat.baseUrl + 'login?seviceId=' + Growthbeat.serviceId;
+                    location.href = GrowthbeatModule.baseUrl + 'login?seviceId=' + GrowthbeatModule.serviceId;
                     return;
                 }
 
-                Growthbeat.Xdm.request('POST', Growthbeat.baseUrl + 'xdm/sessions', {
-                    serviceId: Growthbeat.serviceId,
+                GrowthbeatModule.Xdm.request('POST', GrowthbeatModule.baseUrl + 'xdm/sessions', {
+                    serviceId: GrowthbeatModule.serviceId,
                     url: location.href
                 }, (body:string)=> {
-                    var session:Growthbeat.Session = JSON.parse(body);
+                    var session:GrowthbeatModule.Session = JSON.parse(body);
                     if (!session || !session.id) {
-                        location.href = Growthbeat.baseUrl + 'services/' + Growthbeat.serviceId;
+                        location.href = GrowthbeatModule.baseUrl + 'services/' + GrowthbeatModule.serviceId;
                         return;
                     }
-                    Growthbeat.CookieUtils.set(Growthbeat.cookieName, session.id, Growthbeat.cookieDuration);
+                    GrowthbeatModule.CookieUtils.set(GrowthbeatModule.cookieName, session.id, GrowthbeatModule.cookieDuration);
                     location.reload();
                 }, growthbeatElement);
 
