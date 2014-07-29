@@ -19,8 +19,6 @@ class Growthbeat {
 
     public static init(options:GrowthbeatModule.Options):void {
 
-        console.log('Growthbeat#init');
-
         for (var key in options)
             this.options[key] = options[key];
 
@@ -28,60 +26,47 @@ class Growthbeat {
         this.growthbeatElement.id = options.rootElementId;
         document.body.insertBefore(this.growthbeatElement, document.body.childNodes[0]);
 
-        if (!this.checkLogin()) {
-            this.login();
-            return;
-        }
-
-        new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
-        this.getAccount((account:GrowthbeatModule.Account)=> {
-            if (!account || !account.id) {
-                this.logout();
-                location.reload();
-            }
-        });
-
     }
 
-    public static checkLogin() {
-        return GrowthbeatModule.CookieUtils.get(this.options.cookieName);
-    }
+    public static showHeader():void {
 
-    public static login():void {
+        if (GrowthbeatModule.CookieUtils.get(this.options.cookieName)) {
 
-        console.log('Growthbeat#login');
+            new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
 
-        this.getAccount((account:GrowthbeatModule.Account)=> {
+            this.getAccount((account:GrowthbeatModule.Account)=> {
+                if (!account || !account.id) {
+                    GrowthbeatModule.CookieUtils.delete(this.options.cookieName);
+                    location.reload();
+                }
+            });
 
-            if (!account || !account.id) {
-                location.href = this.options.baseUrl + 'login?seviceId=' + this.options.serviceId;
-                return;
-            }
+        } else {
 
-            this.createSession((session:GrowthbeatModule.Session)=> {
+            this.getAccount((account:GrowthbeatModule.Account)=> {
 
-                if (!session || !session.id) {
-                    location.href = this.options.baseUrl + 'services/' + this.options.serviceId;
+                if (!account || !account.id) {
+                    location.href = this.options.baseUrl + 'login?seviceId=' + this.options.serviceId;
                     return;
                 }
 
-                GrowthbeatModule.CookieUtils.set(this.options.cookieName, session.id, this.options.cookieDuration);
-                location.reload();
+                this.createSession((session:GrowthbeatModule.Session)=> {
+
+                    if (!session || !session.id) {
+                        location.href = this.options.baseUrl + 'services/' + this.options.serviceId;
+                        return;
+                    }
+
+                    GrowthbeatModule.CookieUtils.set(this.options.cookieName, session.id, this.options.cookieDuration);
+                    location.reload();
+
+                });
 
             });
 
-        });
+        }
 
     }
-
-    public static logout():void {
-
-        console.log('Growthbeat#logout');
-
-        GrowthbeatModule.CookieUtils.delete(this.options.cookieName);
-
-    }
-
 
     public static getAccount(callback:(account:GrowthbeatModule.Account)=>void):void {
 
