@@ -1,7 +1,8 @@
-/// <reference path="./GrowthbeatModule.d.ts"/>
-/// <reference path="./CookieUtils.ts"/>
-/// <reference path="./HeaderView.ts"/>
-/// <reference path="./Options.ts"/>
+/// <reference path="./domains/Account.ts"/>
+/// <reference path="./domains/Options.ts"/>
+/// <reference path="./domains/Session.ts"/>
+/// <reference path="./utils/CookieUtils.ts"/>
+/// <reference path="./views/HeaderView.ts"/>
 /// <reference path="./Xdm.ts"/>
 
 class Growthbeat {

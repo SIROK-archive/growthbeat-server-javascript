@@ -1,12 +1,11 @@
-/// <reference path="./GrowthbeatModule.d.ts"/>
-/// <reference path="./HttpUtils.ts"/>
+/// <reference path="./utils/CookieUtils.ts"/>
 /// <reference path="./Template.ts"/>
 
 module GrowthbeatModule {
 
     export class Xdm {
 
-        private static template = GrowthbeatModule.Template.compile('<form method="{method}" action="{url}" target="{target}"></form><iframe id="growthbeatXdmView" name="{target}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>');
+        private static template = Template.compile('<form method="{method}" action="{url}" target="{target}"></form><iframe id="growthbeatXdmView" name="{target}" style="position: absolute; top: -10000px; height: 0px; width: 0px;"></iframe>');
 
         public static request(method:string, url:string, params:any, callback:(body:string)=>void, workingElement:HTMLElement):void {
 
@@ -29,8 +28,8 @@ module GrowthbeatModule {
             var iframeElement:HTMLIFrameElement = element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
-                var originDomain = GrowthbeatModule.HttpUtils.parseUrl(event.origin).domain;
-                var baseDomain = GrowthbeatModule.HttpUtils.parseUrl(Growthbeat.options.baseUrl).domain;
+                var originDomain = HttpUtils.parseUrl(event.origin).domain;
+                var baseDomain = HttpUtils.parseUrl(Growthbeat.options.baseUrl).domain;
                 if (originDomain != baseDomain)
                     return;
                 if (event.source != iframeElement.contentWindow)

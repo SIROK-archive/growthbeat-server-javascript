@@ -29,7 +29,7 @@ module.exports = function (grunt) {
                 tasks: ['handlebars', 'uglify']
             },
             typescript: {
-                files: ['src/*.ts'],
+                files: ['**/*.ts'],
                 tasks: ['typescript', 'uglify']
             }
         }
@@ -39,4 +39,3 @@ module.exports = function (grunt) {
     grunt.registerTask('watchr',['watch']);
 
 };
-

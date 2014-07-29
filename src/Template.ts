@@ -1,5 +1,3 @@
-/// <reference path="./GrowthbeatModule.d.ts"/>
-
 module GrowthbeatModule {
 
     export class Template {
