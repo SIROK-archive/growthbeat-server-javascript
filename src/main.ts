@@ -1,7 +1,5 @@
-/// <reference path="./growthbeat.d.ts"/>
-/// <reference path="./Core.ts"/>
+/// <reference path="./Growthbeat.ts"/>
 
 (function () {
     console.log('Load Growthbeat library');
-    new Growthbeat.Core().start();
 }());
