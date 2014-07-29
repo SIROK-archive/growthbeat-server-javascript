@@ -30,7 +30,7 @@ module GrowthbeatModule {
 
             window.addEventListener('message', (event:MessageEvent)=> {
                 var originDomain = GrowthbeatModule.HttpUtils.parseUrl(event.origin).domain;
-                var baseDomain = GrowthbeatModule.HttpUtils.parseUrl(GrowthbeatModule.baseUrl).domain;
+                var baseDomain = GrowthbeatModule.HttpUtils.parseUrl(Growthbeat.options.baseUrl).domain;
                 if (originDomain != baseDomain)
                     return;
                 if (event.source != iframeElement.contentWindow)

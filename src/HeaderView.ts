@@ -1,4 +1,5 @@
 /// <reference path="./GrowthbeatModule.d.ts"/>
+/// <reference path="./Options.ts"/>
 /// <reference path="./Template.ts"/>
 
 module GrowthbeatModule {
@@ -9,7 +10,7 @@ module GrowthbeatModule {
         private iframeElement:HTMLIFrameElement;
         private opened:boolean = false;
 
-        private template = Growthbeat.Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header/?serviceId={serviceId}&height={height}" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
+        private template = GrowthbeatModule.Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header/?serviceId={serviceId}&height={height}" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
 
         constructor() {
         }
@@ -18,9 +19,9 @@ module GrowthbeatModule {
 
             this.element = document.createElement('div');
             this.element.innerHTML = this.template({
-                baseUrl: Growthbeat.baseUrl,
-                serviceId: Growthbeat.serviceId,
-                height: Growthbeat.headerHeight
+                baseUrl: Growthbeat.options.baseUrl,
+                serviceId: Growthbeat.options.serviceId,
+                height: Growthbeat.options.headerHeight
             });
 
             this.iframeElement = this.element.getElementsByTagName('iframe')[0];
@@ -28,8 +29,8 @@ module GrowthbeatModule {
             window.addEventListener('message', (event:MessageEvent)=> {
                 console.log(event);
 
-                var originDomain = Growthbeat.HttpUtils.parseUrl(event.origin).domain;
-                var baseDomain = Growthbeat.HttpUtils.parseUrl(Growthbeat.baseUrl).domain;
+                var originDomain = GrowthbeatModule.HttpUtils.parseUrl(event.origin).domain;
+                var baseDomain = GrowthbeatModule.HttpUtils.parseUrl(Growthbeat.options.baseUrl).domain;
                 if (originDomain != baseDomain)
                     return;
                 if (event.source != this.iframeElement.contentWindow)
@@ -55,7 +56,7 @@ module GrowthbeatModule {
         }
 
         private rerender():void {
-            this.iframeElement.style.height = (this.opened ? window.innerHeight : Growthbeat.headerHeight) + 'px';
+            this.iframeElement.style.height = (this.opened ? window.innerHeight : Growthbeat.options.headerHeight) + 'px';
         }
 
     }
