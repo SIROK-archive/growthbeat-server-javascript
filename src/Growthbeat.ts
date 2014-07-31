@@ -24,7 +24,7 @@ class Growthbeat {
             this.options[key] = options[key];
 
         this.growthbeatElement = document.createElement('div');
-        this.growthbeatElement.id = options.rootElementId;
+        this.growthbeatElement.id = this.options.rootElementId;
         document.body.insertBefore(this.growthbeatElement, document.body.childNodes[0]);
 
     }
