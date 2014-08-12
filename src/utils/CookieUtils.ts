@@ -22,6 +22,7 @@ module GrowthbeatModule {
         public static set(name:string, value:string, expiry:number):void {
 
             var cookie:string = name + '=' + encodeURIComponent(value);
+            cookie += '; path=/'
             cookie += '; expires=' + new Date(new Date().getTime() + expiry).toUTCString();
 
             document.cookie = cookie;
@@ -29,7 +30,7 @@ module GrowthbeatModule {
         }
 
         public static delete(name:string):void {
-            this.set(name, undefined, 0);
+            document.cookie = name + '=; path=/; expires=' + new Date(0).toUTCString();
         }
 
     }
