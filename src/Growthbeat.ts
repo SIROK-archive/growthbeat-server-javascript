@@ -35,18 +35,20 @@ class Growthbeat {
 
             new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
 
-            this.checkLogin((status:boolean)=> {
-                if (!status) {
+            this.getAccount((account:GrowthbeatModule.Account)=> {
+
+                if (account == null || account.id == null) {
                     GrowthbeatModule.CookieUtils.delete(this.options.cookieName);
                     location.reload();
                 }
+                
             });
 
         } else {
 
-            this.checkLogin((status:boolean)=> {
+            this.getAccount((account:GrowthbeatModule.Account)=> {
 
-                if (!status) {
+                if (account == null || account.id == null) {
                     location.href = this.options.baseUrl + 'login?seviceId=' + this.options.serviceId;
                     return;
                 }
@@ -67,12 +69,6 @@ class Growthbeat {
 
         }
 
-    }
-
-    public static checkLogin(callback:(status:boolean)=>void):void {
-        this.getAccount((account:GrowthbeatModule.Account)=> {
-            callback(account != null && account.id != null);
-        });
     }
 
     public static getAccount(callback:(account:GrowthbeatModule.Account)=>void):void {
