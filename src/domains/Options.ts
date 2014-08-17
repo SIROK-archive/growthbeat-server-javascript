@@ -5,7 +5,8 @@ declare module GrowthbeatModule {
         baseUrl:string;
         headerHeight:number;
         rootElementId:string;
-        cookieName:string;
+        accountIdCookieName:string;
+        sessionIdCookieName:string;
         cookieDuration:number;
     }
 

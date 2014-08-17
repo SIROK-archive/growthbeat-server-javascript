@@ -12,7 +12,8 @@ class Growthbeat {
         baseUrl: 'https://growthbeat.com/',
         headerHeight: 68,
         rootElementId: 'growthbeat',
-        cookieName: 'growthbeat.sessionId',
+        accountIdCookieName: 'growthbeat.accountId',
+        sessionIdCookieName: 'growthbeat.sessionId',
         cookieDuration: 7 * 24 * 60 * 60 * 1000
     };
 
@@ -31,17 +32,25 @@ class Growthbeat {
 
     public static showHeader():void {
 
-        if (GrowthbeatModule.CookieUtils.get(this.options.cookieName)) {
+        if (GrowthbeatModule.CookieUtils.get(this.options.sessionIdCookieName)) {
 
             new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
 
             this.getAccount((account:GrowthbeatModule.Account)=> {
 
                 if (account == null || account.id == null) {
-                    GrowthbeatModule.CookieUtils.delete(this.options.cookieName);
+                    this.deleteCookies();
                     location.reload();
+                    return;
                 }
-                
+
+                var accountId:string = GrowthbeatModule.CookieUtils.get(this.options.accountIdCookieName);
+                if (accountId != account.id) {
+                    this.deleteCookies();
+                    location.reload();
+                    return;
+                }
+
             });
 
         } else {
@@ -60,7 +69,7 @@ class Growthbeat {
                         return;
                     }
 
-                    GrowthbeatModule.CookieUtils.set(this.options.cookieName, session.id, this.options.cookieDuration);
+                    this.setCookies(account.id, session.id);
                     location.reload();
 
                 });
@@ -93,6 +102,16 @@ class Growthbeat {
             callback(session);
         }, this.growthbeatElement);
 
+    }
+
+    private static setCookies(accountId:string, sessionId:string):void {
+        GrowthbeatModule.CookieUtils.set(this.options.accountIdCookieName, accountId, this.options.cookieDuration);
+        GrowthbeatModule.CookieUtils.set(this.options.sessionIdCookieName, sessionId, this.options.cookieDuration);
+    }
+
+    private static deleteCookies():void {
+        GrowthbeatModule.CookieUtils.delete(this.options.accountIdCookieName);
+        GrowthbeatModule.CookieUtils.delete(this.options.sessionIdCookieName);
     }
 
 }
