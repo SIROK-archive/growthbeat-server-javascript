@@ -28,8 +28,6 @@ module GrowthbeatModule {
             this.iframeElement = this.element.getElementsByTagName('iframe')[0];
 
             window.addEventListener('message', (event:MessageEvent)=> {
-                console.log(event);
-
                 var originDomain = HttpUtils.parseUrl(event.origin).domain;
                 var baseDomain = HttpUtils.parseUrl(Growthbeat.options.baseUrl).domain;
                 if (originDomain != baseDomain)
