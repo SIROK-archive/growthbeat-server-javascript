@@ -40,14 +40,14 @@ class Growthbeat {
 
                 if (account == null || account.id == null) {
                     this.deleteCookies();
-                    location.reload();
+                    this.redirectToLogin();
                     return;
                 }
 
                 var accountId:string = GrowthbeatModule.CookieUtils.get(this.options.accountIdCookieName);
                 if (accountId != account.id) {
                     this.deleteCookies();
-                    location.reload();
+                    this.redirectToLogin();
                     return;
                 }
 
@@ -58,14 +58,14 @@ class Growthbeat {
             this.getAccount((account:GrowthbeatModule.Account)=> {
 
                 if (account == null || account.id == null) {
-                    location.href = this.options.baseUrl + 'login?seviceId=' + this.options.serviceId;
+                    this.redirectToLogin();
                     return;
                 }
 
                 this.createSession((session:GrowthbeatModule.Session)=> {
 
                     if (!session || !session.id) {
-                        location.href = this.options.baseUrl + 'services/' + this.options.serviceId;
+                        this.redirectToConnect();
                         return;
                     }
 
@@ -113,5 +113,14 @@ class Growthbeat {
         GrowthbeatModule.CookieUtils.delete(this.options.accountIdCookieName);
         GrowthbeatModule.CookieUtils.delete(this.options.sessionIdCookieName);
     }
+
+    private static redirectToLogin():void {
+        location.href = this.options.baseUrl + 'login?seviceId=' + this.options.serviceId;
+    }
+
+    private static redirectToConnect():void {
+        location.href = this.options.baseUrl + 'services/' + this.options.serviceId;
+    }
+
 
 }
