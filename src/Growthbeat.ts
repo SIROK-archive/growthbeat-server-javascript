@@ -115,7 +115,7 @@ class Growthbeat {
     }
 
     private static redirectToLogin():void {
-        location.href = this.options.baseUrl + 'login?seviceId=' + this.options.serviceId;
+        location.href = this.options.baseUrl + 'login?serviceId=' + this.options.serviceId;
     }
 
     private static redirectToConnect():void {
