@@ -36,23 +36,6 @@ class Growthbeat {
 
             new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
 
-            this.getAccount((account:GrowthbeatModule.Account)=> {
-
-                if (account == null || account.id == null) {
-                    this.deleteCookies();
-                    this.redirectToLogin();
-                    return;
-                }
-
-                var accountId:string = GrowthbeatModule.CookieUtils.get(this.options.accountIdCookieName);
-                if (accountId != account.id) {
-                    this.deleteCookies();
-                    this.redirectToLogin();
-                    return;
-                }
-
-            });
-
         } else {
 
             this.getAccount((account:GrowthbeatModule.Account)=> {
