@@ -12,7 +12,6 @@ class Growthbeat {
         baseUrl: 'https://growthbeat.com/',
         headerHeight: 68,
         rootElementId: 'growthbeat',
-        accountIdCookieName: 'growthbeat.accountId',
         sessionIdCookieName: 'growthbeat.sessionId',
         cookieDuration: 7 * 24 * 60 * 60 * 1000
     };
@@ -36,23 +35,6 @@ class Growthbeat {
 
             new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
 
-            this.getAccount((account:GrowthbeatModule.Account)=> {
-
-                if (account == null || account.id == null) {
-                    this.deleteCookies();
-                    this.redirectToLogin();
-                    return;
-                }
-
-                var accountId:string = GrowthbeatModule.CookieUtils.get(this.options.accountIdCookieName);
-                if (accountId != account.id) {
-                    this.deleteCookies();
-                    this.redirectToLogin();
-                    return;
-                }
-
-            });
-
         } else {
 
             this.getAccount((account:GrowthbeatModule.Account)=> {
@@ -69,7 +51,7 @@ class Growthbeat {
                         return;
                     }
 
-                    this.setCookies(account.id, session.id);
+                    GrowthbeatModule.CookieUtils.set(this.options.sessionIdCookieName, session.id, this.options.cookieDuration);
                     location.reload();
 
                 });
@@ -102,16 +84,6 @@ class Growthbeat {
             callback(session);
         }, this.growthbeatElement);
 
-    }
-
-    private static setCookies(accountId:string, sessionId:string):void {
-        GrowthbeatModule.CookieUtils.set(this.options.accountIdCookieName, accountId, this.options.cookieDuration);
-        GrowthbeatModule.CookieUtils.set(this.options.sessionIdCookieName, sessionId, this.options.cookieDuration);
-    }
-
-    private static deleteCookies():void {
-        GrowthbeatModule.CookieUtils.delete(this.options.accountIdCookieName);
-        GrowthbeatModule.CookieUtils.delete(this.options.sessionIdCookieName);
     }
 
     private static redirectToLogin():void {
