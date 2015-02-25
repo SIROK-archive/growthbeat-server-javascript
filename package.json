@@ -1,6 +1,10 @@
 {
 	"name": "hub-server",
 	"version": "0.0.1",
+  "scripts": {
+    "build": "grunt",
+    "watch": "grunt watch"
+  },
 	"devDependencies": {
 		"grunt": "~0.4.4",
 		"grunt-typescript": "~0.3.0",
