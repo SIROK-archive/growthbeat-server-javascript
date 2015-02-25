@@ -7,6 +7,7 @@ declare module GrowthbeatModule {
         rootElementId:string;
         sessionIdCookieName:string;
         cookieDuration:number;
+        backgroundColor:string;
     }
 
 }

@@ -11,7 +11,7 @@ module GrowthbeatModule {
         private iframeElement:HTMLIFrameElement;
         private opened:boolean = false;
 
-        private template = Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header/?serviceId={serviceId}&height={height}" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
+        private template = Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header/?serviceId={serviceId}&height={height}&backgroundColor={backgroundColor}" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
 
         constructor() {
         }
@@ -21,8 +21,9 @@ module GrowthbeatModule {
             this.element = document.createElement('div');
             this.element.innerHTML = this.template({
                 baseUrl: Growthbeat.options.baseUrl,
-                serviceId: Growthbeat.options.serviceId,
-                height: Growthbeat.options.headerHeight
+                serviceId:       encodeURIComponent(Growthbeat.options.serviceId),
+                height:          encodeURIComponent(Growthbeat.options.headerHeight.toString()),
+                backgroundColor: encodeURIComponent(Growthbeat.options.backgroundColor)
             });
 
             this.iframeElement = this.element.getElementsByTagName('iframe')[0];
