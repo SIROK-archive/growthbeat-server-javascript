@@ -11,7 +11,7 @@ module GrowthbeatModule {
         private iframeElement:HTMLIFrameElement;
         private opened:boolean = false;
 
-        private template = Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header/?serviceId={serviceId}&height={height}" allowtransparency="true" style="width: 100%; height: {height}px; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
+        private template = Template.compile('<iframe id="growthbeatHeaderView" src="{baseUrl}header/?serviceId={serviceId}&height={height}&backgroundColor={backgroundColor}" allowtransparency="true" style="width: 100%; height: {height}px; background-color: {backgroundColor}; border-style: none; position: fixed; top: 0px; padding: 0px; margin: 0px; z-index: 100000;"></iframe><div style="width: 100%; height: {height}px;"></div>');
 
         constructor() {
         }
