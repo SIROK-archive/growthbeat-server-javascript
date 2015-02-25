@@ -14,13 +14,12 @@ class Growthbeat {
         rootElementId: 'growthbeat',
         sessionIdCookieName: 'growthbeat.sessionId',
         cookieDuration: 7 * 24 * 60 * 60 * 1000,
-        background: 'growthbeat.background'
+        backgroundColor: '#333549'
     };
 
     private static growthbeatElement:HTMLElement;
 
     public static init(options:GrowthbeatModule.Options):void {
-
         for (var key in options)
             this.options[key] = options[key];
 
@@ -31,7 +30,6 @@ class Growthbeat {
     }
 
     public static showHeader():void {
-
         if (GrowthbeatModule.CookieUtils.get(this.options.sessionIdCookieName)) {
 
             new GrowthbeatModule.HeaderView().show(this.growthbeatElement);
