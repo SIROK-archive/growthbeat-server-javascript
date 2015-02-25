@@ -13,7 +13,8 @@ class Growthbeat {
         headerHeight: 68,
         rootElementId: 'growthbeat',
         sessionIdCookieName: 'growthbeat.sessionId',
-        cookieDuration: 7 * 24 * 60 * 60 * 1000
+        cookieDuration: 7 * 24 * 60 * 60 * 1000,
+        background: 'growthbeat.background'
     };
 
     private static growthbeatElement:HTMLElement;
