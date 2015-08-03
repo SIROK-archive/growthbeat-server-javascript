@@ -10,7 +10,7 @@ class Growthbeat {
     public static options:GrowthbeatModule.Options = {
         serviceId: undefined,
         baseUrl: 'https://growthbeat.com/',
-        headerHeight: 68,
+        headerHeight: 32,
         rootElementId: 'growthbeat',
         sessionIdCookieName: 'growthbeat.sessionId',
         cookieDuration: 7 * 24 * 60 * 60 * 1000,
